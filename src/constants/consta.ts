@@ -1,0 +1,1 @@
+export const API_URL = 'https://192.168.147.36/inventory/public/';
