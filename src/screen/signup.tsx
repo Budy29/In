@@ -81,11 +81,11 @@ const App = () => {
                 <Text style={styles.title}>Daftar</Text>
             </View>
             <View style={styles.containerBoxInput}>
-                <TextInput placeholder="Nama Karyawan" style={styles.input1} onChangeText={text => setNamaKaryawan(text)} />
-                <TextInput placeholder="Username" style={styles.input} onChangeText={text => setUsername(text)} />
-                <TextInput placeholder="Email" style={styles.input1} onChangeText={text => setEmail(text)} />
-                <TextInput placeholder="Password" style={styles.input} onChangeText={text => setPassword(text)} />
-                <TextInput placeholder="Konfirmasi Password" style={styles.input1} onChangeText={text => setConfirmPassword(text)} />
+                <TextInput placeholder="Nama Karyawan" placeholderTextColor="#000" style={styles.input1} onChangeText={text => setNamaKaryawan(text)} />
+                <TextInput placeholderTextColor="#000" placeholder="Username" style={styles.input} onChangeText={text => setUsername(text)} />
+                <TextInput placeholderTextColor="#000" placeholder="Email" style={styles.input1} onChangeText={text => setEmail(text)} />
+                <TextInput placeholderTextColor="#000" placeholder="Password" style={styles.input} onChangeText={text => setPassword(text)} />
+                <TextInput placeholderTextColor="#000" placeholder="Konfirmasi Password" style={styles.input1} onChangeText={text => setConfirmPassword(text)} />
                 <TouchableOpacity onPress={handleSubmit} style={styles.btn}>
                     <Text style={styles.btnTitle} >Daftar</Text>
                 </TouchableOpacity>

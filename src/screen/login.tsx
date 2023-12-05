@@ -50,8 +50,8 @@ const App = () => {
                 <Text style={styles.title}>Login</Text>
             </View>
             <View style={styles.containerBoxInput}>
-                <TextInput placeholder="Email" style={styles.input} onChangeText={e => setEmail(e)} />
-                <TextInput placeholder="Password" style={styles.input} onChangeText={e => setPassword(e)} />
+                <TextInput placeholderTextColor="#000" placeholder="Email" style={styles.input} onChangeText={e => setEmail(e)} />
+                <TextInput placeholderTextColor="#000" placeholder="Password" style={styles.input} onChangeText={e => setPassword(e)} />
                 <TouchableOpacity style={styles.btn} onPress={handleLogin}><Text style={styles.btnTitle}>Login</Text></TouchableOpacity>
             </View>
             <Wave1 />
