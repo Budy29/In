@@ -1,48 +1,66 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
-import { Wave1, Wave3 } from "../asset";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert, ActivityIndicator, } from 'react-native';
+import { Wave1, Wave3, Eye, EyeLock } from "../asset";
 import { useNavigation } from "@react-navigation/native";
 import { API_URL } from "../constants/consta";
 import axios from "axios";
+import { useWaterStore } from "../store/WaterStore";
+// import { AsyncStorage } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const App = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    // const handleLogin = () => {
-    //     fetch(API_URL + "login", {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ email, password }),
-    //     })
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log(data);
-    //         })
-    //         .catch((error) => {
-    //             console.error('Error:', error);
-    //         });
-    // };
-
-
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
     const navigation = useNavigation();
+
+
+
+    // const Login = async () => {
+    //     if (email === '' || password === '') {
+    //         Alert.alert('eror nih bro');
+    //         return;
+    //     };
+    //     setIsLoading(true);
+    //     await handleLogin(email, password);
+    //     await getUserProfile();
+    //     setIsLoading(false);
+    // }
+
+    // useEffect(() => {
+    //     { accessToken !== " " ? navigation.navigate('Home') : navigation.navigate('Login') }
+    // }, [accessToken])
+
 
     const handleLogin = async () => {
         try {
+            setIsLoading(true);
             const response = await axios.post("https://api-inventory.drabsky.com/login", {
                 email,
-                password
-            })
-            console.log(response)
-            navigation.navigate('Home')
+                password,
+            });
+            // setIsLoading(true);
+            console.log("ini adalah Response Data token:", response.data.token);
+            const token = response.data.token;
+            if (token) {
+                await AsyncStorage.setItem('access_token', token);
+                console.log(response)
+                navigation.navigate('Home')
+            }
         } catch (error: any) {
             console.log(error.response.data.message)
             Alert.alert(error.response.data.message)
         }
-    }
+        setIsLoading(false);
+    };
+
     return (
         <View style={styles.container}>
             <Wave3 style={{ top: '-1%', }} />
@@ -51,10 +69,15 @@ const App = () => {
             </View>
             <View style={styles.containerBoxInput}>
                 <TextInput placeholderTextColor="#000" placeholder="Email" style={styles.input} onChangeText={e => setEmail(e)} />
-                <TextInput placeholderTextColor="#000" placeholder="Password" style={styles.input} onChangeText={e => setPassword(e)} />
-                <TouchableOpacity style={styles.btn} onPress={handleLogin}><Text style={styles.btnTitle}>Login</Text></TouchableOpacity>
+                <TextInput placeholderTextColor="#000" placeholder="Password" style={styles.input} onChangeText={e => setPassword(e)} secureTextEntry={!showPassword} />
+                <TouchableOpacity style={styles.btn} onPress={handleLogin} ><Text style={styles.btnTitle}>Login</Text></TouchableOpacity>
             </View>
             <Wave1 />
+            {isLoading &&
+                <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, justifyContent: 'center', alignItems: 'center', }}>
+                    <ActivityIndicator size="large" color="#B9E1D3" />
+                </View>
+            }
 
         </View>
     );
@@ -68,7 +91,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         alignItems: 'center',
-        flex: 1
+
     },
     containerTitle: {
         marginTop: '25%'
@@ -80,11 +103,11 @@ const styles = StyleSheet.create({
     },
     containerBoxInput: {
         width: '100%',
-        height: '20%',
-        maxHeight: '20%',
+        height: 300,
         alignItems: 'center',
         marginTop: '15%',
-        marginBottom: '30%'
+
+        // backgroundColor: 'red',
 
     },
 
@@ -96,7 +119,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 3,
         fontSize: 20,
         fontWeight: '700',
-        color: '#000000'
+        color: '#000000',
+        padding: 10
     },
     btn: {
         backgroundColor: '#B9E1D3',
@@ -105,15 +129,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 20,
-        marginTop: '10%',
-        // zIndex: 1,
-        marginBottom: '4%'
+        marginTop: '5%',
+
+
     },
     btnTitle: {
         fontSize: 20,
         fontWeight: 'bold',
         color: '#000000'
-    }
+    },
+    // ey: {
+    //     position: 'relative',
+    //     top: '-25%',
+    //     left: '37%',
+    // }
 
 
 

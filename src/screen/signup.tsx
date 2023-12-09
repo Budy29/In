@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert, Dimensions, ScrollView, act, ActivityIndicator } from 'react-native';
 import { Wave1, Wave2 } from "../asset";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
@@ -16,6 +16,7 @@ const App = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const navigation = useNavigation();
 
     const [message, setMessage] = useState({
@@ -26,6 +27,7 @@ const App = () => {
     const handleSubmit = async () => {
         console.log("loading true")
         try {
+            setIsLoading(true);
             const response = await axios.post("https://api-inventory.drabsky.com/register", {
                 nama: namaKaryawan,
                 username: username,
@@ -33,12 +35,12 @@ const App = () => {
                 password: password,
                 password_confirm: confirmPassword
             })
+            setIsLoading(true);
             console.log(response)
             Alert.alert("Registrasi Berhasil")
             navigation.navigate('Scr')
-            console.log("loading false")
         } catch (error: any) {
-            console.log("loading false")
+            setIsLoading(false);
             const errors = error.response.data.errors;
 
             let errorMessages = '';
@@ -53,8 +55,8 @@ const App = () => {
             }
             Alert.alert('Error', errorMessages);
         }
+        setIsLoading(false)
     }
-
     // const handleSubmit = async () => {
     //     console.log("loading true")
     //     await axios.post("https://api-inventory.drabsky.com/register", {
@@ -72,8 +74,6 @@ const App = () => {
     //                 Alert.alert(message.password)
     //             })
     // }
-
-
     return (
         <View style={styles.container}>
             <Wave2 />
@@ -81,17 +81,27 @@ const App = () => {
                 <Text style={styles.title}>Daftar</Text>
             </View>
             <View style={styles.containerBoxInput}>
-                <TextInput placeholder="Nama Karyawan" placeholderTextColor="#000" style={styles.input1} onChangeText={text => setNamaKaryawan(text)} />
-                <TextInput placeholderTextColor="#000" placeholder="Username" style={styles.input} onChangeText={text => setUsername(text)} />
-                <TextInput placeholderTextColor="#000" placeholder="Email" style={styles.input1} onChangeText={text => setEmail(text)} />
-                <TextInput placeholderTextColor="#000" placeholder="Password" style={styles.input} onChangeText={text => setPassword(text)} />
-                <TextInput placeholderTextColor="#000" placeholder="Konfirmasi Password" style={styles.input1} onChangeText={text => setConfirmPassword(text)} />
-                <TouchableOpacity onPress={handleSubmit} style={styles.btn}>
-                    <Text style={styles.btnTitle} >Daftar</Text>
-                </TouchableOpacity>
+                <ScrollView style={{ width: '100%', height: 700, }} contentContainerStyle={{ alignItems: 'center' }}>
+                    <View style={{ width: '100%', height: 450, alignItems: 'center' }}>
+                        <TextInput placeholder="Nama Karyawan" placeholderTextColor="#000" style={styles.input1} onChangeText={text => setNamaKaryawan(text)} />
+                        <TextInput placeholderTextColor="#000" placeholder="Username" style={styles.input} onChangeText={text => setUsername(text)} />
+                        <TextInput placeholderTextColor="#000" placeholder="Email" style={styles.input1} onChangeText={text => setEmail(text)} />
+                        <TextInput placeholderTextColor="#000" placeholder="Password" style={styles.input} onChangeText={text => setPassword(text)} />
+                        <TextInput placeholderTextColor="#000" placeholder="Konfirmasi Password" style={styles.input1} onChangeText={text => setConfirmPassword(text)} />
+                        <TouchableOpacity onPress={handleSubmit} style={styles.btn}>
+                            <Text style={styles.btnTitle} >Daftar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
             </View>
-            <Wave1 />
-
+            <View style={{ top: -90, }}>
+                <Wave1 />
+            </View>
+            {isLoading &&
+                <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, justifyContent: 'center', alignItems: 'center', }}>
+                    <ActivityIndicator size="large" color="#B9E1D3" />
+                </View>
+            }
         </View>
     );
 };
@@ -117,13 +127,13 @@ const styles = StyleSheet.create({
     containerBoxInput: {
         width: '100%',
         // backgroundColor: 'red',
-        height: '40%',
+        height: '50%',
         alignItems: 'center',
         marginTop: '5%',
         marginBottom: '15%'
     },
     input1: {
-        width: '80%',
+        width: '85%',
         height: 60,
         backgroundColor: '#E6E6E6',
         marginTop: '1%',
@@ -132,16 +142,18 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '700',
         color: '#000000',
+        paddingLeft: 15
     },
     input: {
-        width: '80%',
+        width: '85%',
         height: 60,
-        marginTop: 10,
+        marginTop: '1%',
         borderRadius: 5,
         borderBottomWidth: 3,
         fontSize: 20,
         fontWeight: '700',
-        color: '#000000'
+        color: '#000000',
+        paddingLeft: 15
     },
     btn: {
         backgroundColor: '#B9E1D3',
@@ -151,7 +163,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 20,
         marginTop: '10%',
-        marginBottom: '0%'
+        marginBottom: '0%',
+        zIndex: 2,
+
 
 
     },

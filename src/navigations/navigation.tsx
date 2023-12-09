@@ -6,7 +6,15 @@ import Splace from '../component/splash';
 import Login from '../screen/login';
 import Signup from '../screen/signup';
 import Scr from '../screen/scrn';
-import Drawer from './drawerNavigator';
+import Barang from '../component/Barang';
+import Dokumen from '../screen/Document';
+import Laporan from '../component/Laporan';
+import Biaya from '../component/BiayaTambahan';
+import BiayaTambahan from '../component/TambahBiayaTambahan';
+import TambahKategiori from '../component/TambahKategori';
+import TambahBarang from '../component/TambahBarang';
+// import Drawer from './drawerNavigator';
+
 import Home from '../screen/home'
 
 
@@ -30,7 +38,14 @@ function Navigation() {
             <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
             <Stack.Screen name='Signup' component={Signup} options={{ headerShown: false }} />
             <Stack.Screen name='Scr' component={Scr} options={{ headerShown: false }} />
-            <Stack.Screen name="Drawer" component={Drawer} options={{ headerShown: false }} />
+            <Stack.Screen name='Barang' component={Barang} options={{ headerShown: false }} />
+            <Stack.Screen name='Dokumen' component={Dokumen} options={{ headerShown: false }} />
+            <Stack.Screen name='Laporan' component={Laporan} options={{ headerShown: false }} />
+            <Stack.Screen name='Biaya' component={Biaya} options={{ headerShown: false }} />
+            <Stack.Screen name='BiayaTambahan' component={BiayaTambahan} options={{ headerShown: false }} />
+            <Stack.Screen name="Drawer" component={DrawerNavigation} options={{ headerShown: false }} />
+            <Stack.Screen name="TambahKategori" component={TambahKategiori} options={{ headerShown: false }} />
+            <Stack.Screen name="TambahBarang" component={TambahBarang} options={{ headerShown: false }} />
             {/* <Stack.Screen name="Drawer" component={DrawerNavigation} /> */}
         </Stack.Navigator>
 

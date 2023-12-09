@@ -75,6 +75,7 @@ android {
 
     namespace "com.inventory"
     defaultConfig {
+       missingDimensionStrategy 'react-native-camera', 'general' 
         applicationId "com.inventory"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion

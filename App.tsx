@@ -3,8 +3,8 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import Navigation from './src/navigations/navigation';
 import 'react-native-gesture-handler';
-import { View } from 'react-native';
-import RR from './src/component/TambahKategori';
+import { LogBox, View } from 'react-native';
+// import RR from './src/screen/home';
 
 export default function App() {
   return (

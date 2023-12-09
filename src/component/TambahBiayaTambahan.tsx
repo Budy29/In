@@ -11,11 +11,11 @@ const App = () => {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Cancel />
                 </TouchableOpacity>
-                <Text style={styles.title}>Tambahkan Kategori</Text>
+                <Text style={styles.title}>Tambahkan Barang</Text>
             </View>
             <View style={styles.container_Box}>
-                <TextInput placeholder="Created At" placeholderTextColor='#000000' style={styles.input} />
-                <TextInput placeholder="Kategori" placeholderTextColor='#000000' style={styles.input} />
+                <TextInput placeholder="Nama Barang" placeholderTextColor='#000000' style={styles.input} />
+                <TextInput placeholder="Harga" placeholderTextColor='#000000' style={styles.input} />
                 <TextInput placeholder="Keterangan" placeholderTextColor='#000000' style={styles.input} />
                 <TouchableOpacity style={styles.btn}>
                     <Text style={styles.btnTitle}>Simpan</Text>

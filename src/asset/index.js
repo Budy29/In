@@ -20,6 +20,17 @@ import Cancel from './icon/Cancel.svg';
 import Camera from './icon/Camera.svg';
 import Vec from './icon/Vector.svg';
 import Magnifier from './icon/Magnifier.svg';
+import Save from './icon/Vector (1).svg';
+import Add from './icon/icon _add_white.svg';
+import Batal from './icon/batal.svg';
+import DrawerHome from './icon/Home.svg';
+import DrawerBarang from './icon/Barang.svg';
+import DrawerDokumen from './icon/Dokumen.svg';
+import DrawerLaporan from './icon/laporan.svg';
+import DrawerLogout from './icon/Logout.svg';
+import DrawerDolasrs from './icon/Dolarssss.svg';
+import Eye from './icon/Eye.svg';
+import EyeLock from './icon/Eye-closed.svg';
 
 export {
   LogoAwal,
@@ -44,4 +55,15 @@ export {
   Cancel,
   Vec,
   Magnifier,
+  Save,
+  Add,
+  Batal,
+  DrawerHome,
+  DrawerBarang,
+  DrawerDokumen,
+  DrawerLaporan,
+  DrawerLogout,
+  DrawerDolasrs,
+  Eye,
+  EyeLock,
 };
