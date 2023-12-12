@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,12 +8,12 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import {Wave1, Wave3, Eye, EyeLock} from '../asset';
-import {useNavigation} from '@react-navigation/native';
+import { Wave1, Wave3, Eye, EyeLock } from '../asset';
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {BASE_API_URL} from '@env';
-import {useAuthStore} from '../stores/useAuthStore';
+import { BASE_API_URL } from '@env';
+import { useAuthStore } from '../stores/useAuthStore';
 
 const App = () => {
   const [email, setEmail] = useState('');
@@ -25,7 +25,7 @@ const App = () => {
     setShowPassword(!showPassword);
   };
   const navigation = useNavigation();
-  const {accessToken, setAccessToken} = useAuthStore(state => ({
+  const { accessToken, setAccessToken } = useAuthStore(state => ({
     accessToken: state.accessToken,
     setAccessToken: state.setAccessToken,
   }));
@@ -51,7 +51,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <Wave3 style={{top: '-1%'}} />
+      <Wave3 style={{ top: '-1%' }} />
       <View style={styles.containerTitle}>
         <Text style={styles.title}>Login</Text>
       </View>
@@ -69,6 +69,13 @@ const App = () => {
           onChangeText={e => setPassword(e)}
           secureTextEntry={!showPassword}
         />
+        <TouchableOpacity onPress={togglePasswordVisibility} style={{ position: 'relative', top: '-14%', left: '35%' }}>
+          {showPassword ? (
+            <Eye />
+          ) : (
+            <EyeLock />
+          )}
+        </TouchableOpacity>
         <TouchableOpacity style={styles.btn} onPress={handleLogin}>
           <Text style={styles.btnTitle}>Login</Text>
         </TouchableOpacity>

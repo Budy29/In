@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  ActivityIndicator,
   Image,
   Modal,
   ScrollView,
@@ -9,19 +10,21 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import {IconLeft, Add_icon} from '../asset';
-import {useNavigation} from '@react-navigation/native';
-import {useAuthStore} from '../stores/useAuthStore';
-import {BASE_API_URL} from '@env';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { IconLeft, Add_icon } from '../asset';
+import { useNavigation } from '@react-navigation/native';
+import { useAuthStore } from '../stores/useAuthStore';
+import { BASE_API_URL } from '@env';
 import axios from 'axios';
-import {Product, Transactions} from '../constants/Model';
-import {useState} from 'react';
+import { Product, Transactions } from '../constants/Model';
+import { useState } from 'react';
 import DocumenTransaksi from '../component/DocumenTransaksi';
+import DokumenMasuk from '../component/DokumenMasuk';
 
 const SecondRoute = () => {
   const accessToken = useAuthStore(state => state.accessToken);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigation = useNavigation();
   const [products, setProducts] = useState<Product[]>([
     {
       barcode: '',
@@ -56,20 +59,22 @@ const SecondRoute = () => {
   React.useEffect(() => {
     getDataProducts();
   }, []);
+
+
   return (
-    <View style={{flex: 1, backgroundColor: '#FFF'}}>
-      <ScrollView style={{width: '100%', height: '100%', paddingTop: 20}}>
+    <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+      <ScrollView style={{ width: '100%', height: '100%', paddingTop: 20 }}>
         {products.map(item => (
           <View key={item.id} style={styles.item}>
             <View style={styles.Imageview}>
               <Image source={{}} style={styles.Image} />
             </View>
-            <View style={{marginLeft: '5%'}}>
+            <View style={{ marginLeft: '5%' }}>
               <Text style={styles.titleProduk}>{item.nama_barang}</Text>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.produkIsi}>{item.barcode} .</Text>
               </View>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.produkIsi}>{item.harga_barang} . </Text>
                 <Text style={styles.produkIsi}>{item.catatan} . </Text>
                 <Text style={styles.produkIsi}>{item.id_kategori} . </Text>
@@ -79,6 +84,39 @@ const SecondRoute = () => {
           </View>
         ))}
       </ScrollView>
+      <View
+        style={{
+          width: 100,
+          height: 80,
+          marginTop: '0%',
+          zIndex: 10,
+          position: 'absolute',
+          justifyContent: 'center',
+          alignItems: 'center',
+          left: '75%',
+          top: '75%',
+        }}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('TambahBarang' as never)}
+          style={styles.addProduk}>
+          <Add_icon />
+        </TouchableOpacity>
+      </View>
+      {isLoading && (
+        <View
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ActivityIndicator size="large" color="#B9E1D3" />
+        </View>
+      )}
     </View>
   );
 };
@@ -120,20 +158,21 @@ const FirstRoute = () => {
   React.useEffect(() => {
     getDataProducts();
   }, []);
+
   return (
-    <View style={{flex: 1, backgroundColor: '#FFF'}}>
-      <ScrollView style={{width: '100%', height: '100%', paddingTop: 20}}>
+    <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+      <ScrollView style={{ width: '100%', height: '100%', paddingTop: 20 }}>
         {products.map(item => (
           <View key={item.id} style={styles.item}>
             <View style={styles.Imageview}>
               <Image source={{}} style={styles.Image} />
             </View>
-            <View style={{marginLeft: '5%'}}>
+            <View style={{ marginLeft: '5%' }}>
               <Text style={styles.titleProduk}>{item.nama_barang}</Text>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.produkIsi}>{item.barcode} .</Text>
               </View>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.produkIsi}>{item.harga_barang} . </Text>
                 <Text style={styles.produkIsi}>{item.catatan} . </Text>
                 <Text style={styles.produkIsi}>{item.id_kategori} . </Text>
@@ -143,6 +182,7 @@ const FirstRoute = () => {
           </View>
         ))}
       </ScrollView>
+
     </View>
   );
 };
@@ -180,20 +220,20 @@ const ThridRoute = () => {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#FFF'}}>
-      <ScrollView style={{width: '100%', height: '100%', paddingTop: 20}}>
+    <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+      <ScrollView style={{ width: '100%', height: '100%', paddingTop: 20 }}>
         {transaksi.map(item => (
           <View key={item.id} style={styles.item}>
             <View style={styles.Imageview}>
               <Image source={{}} style={styles.Image} />
             </View>
-            <View style={{marginLeft: '5%'}}>
+            <View style={{ marginLeft: '5%' }}>
               <Text style={styles.titleProduk}>tambahi nama baran jun</Text>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.produkIsi}>{item.created_at} .</Text>
                 <Text style={styles.produkIsi}>{item.id}</Text>
               </View>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.produkIsi}>Rp{item.total_biaya} . </Text>
                 <Text style={styles.produkIsi}>{item.jumlah} . </Text>
                 <Text style={styles.produkIsi}>{item.catatan} . </Text>
@@ -230,6 +270,21 @@ const ThridRoute = () => {
           </TouchableOpacity>
         )}
       </View>
+      {isLoading && (
+        <View
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ActivityIndicator size="large" color="#B9E1D3" />
+        </View>
+      )}
     </View>
   );
 };
@@ -245,9 +300,9 @@ export default function TabDocument() {
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    {key: 'first', title: 'Semua'},
-    {key: 'second', title: 'Masuk'},
-    {key: 'thrid', title: 'Keluar'},
+    { key: 'first', title: 'Semua' },
+    { key: 'second', title: 'Masuk' },
+    { key: 'thrid', title: 'Keluar' },
   ]);
 
   const navigation = useNavigation();
@@ -258,18 +313,18 @@ export default function TabDocument() {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <IconLeft />
         </TouchableOpacity>
-        <View style={{width: '80%', left: '10%', alignItems: 'center'}}>
+        <View style={{ width: '80%', left: '10%', alignItems: 'center' }}>
           <Text style={styles.title}>Dokumen</Text>
         </View>
       </View>
-      <View style={{flex: 1, width: '100%'}}>
+      <View style={{ flex: 1, width: '100%' }}>
         <TabView
-          navigationState={{index, routes}}
+          navigationState={{ index, routes }}
           renderScene={renderScene}
           onIndexChange={setIndex}
-          initialLayout={{width: layout.width}}
+          initialLayout={{ width: layout.width }}
           renderTabBar={props => (
-            <TabBar {...props} style={{backgroundColor: '#44E7AC'}} />
+            <TabBar {...props} style={{ backgroundColor: '#44E7AC' }} />
           )}
         />
       </View>

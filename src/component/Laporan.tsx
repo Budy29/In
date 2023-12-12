@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -8,13 +8,14 @@ import {
   TextInput,
   ScrollView,
   Image,
+  ActivityIndicator,
 } from 'react-native';
-import {IconLeft} from '../asset';
-import {useNavigation} from '@react-navigation/native';
+import { IconLeft } from '../asset';
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import {BASE_API_URL} from '@env';
-import {useAuthStore} from '../stores/useAuthStore';
-import {Report} from '../constants/Model';
+import { BASE_API_URL } from '@env';
+import { useAuthStore } from '../stores/useAuthStore';
+import { Report } from '../constants/Model';
 
 const App = () => {
   const navigation = useNavigation();
@@ -56,13 +57,13 @@ const App = () => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <IconLeft />
         </TouchableOpacity>
-        <View style={{width: '80%', left: '10%', alignItems: 'center'}}>
+        <View style={{ width: '80%', left: '10%', alignItems: 'center' }}>
           <Text style={styles.title}>Laporan</Text>
         </View>
       </View>
       <View style={styles.container_Box}>
         <View
-          style={{flexDirection: 'row', marginTop: '10%', marginBottom: '5%'}}>
+          style={{ flexDirection: 'row', marginTop: '10%', marginBottom: '5%' }}>
           <View
             style={{
               width: '43%',
@@ -124,7 +125,7 @@ const App = () => {
             {/* <Image source={{}} style={styles.Image} /> */}
           </View>
           <View
-            style={{marginLeft: '8%', width: '60%', justifyContent: 'center'}}>
+            style={{ marginLeft: '8%', width: '60%', justifyContent: 'center' }}>
             <Text style={styles.titleProduk}>
               {parseInt(laporan.stok_sebelumnya) + laporan.stok_sekarang}
             </Text>
@@ -146,12 +147,27 @@ const App = () => {
             {/* <Image source={{}} style={styles.Image} /> */}
           </View>
           <View
-            style={{marginLeft: '8%', width: '60%', justifyContent: 'center'}}>
+            style={{ marginLeft: '8%', width: '60%', justifyContent: 'center' }}>
             <Text style={styles.titleProduk}>Rp{laporan.biaya_tambahan}</Text>
             <Text style={styles.titleProduk}>Biaya Tambahan</Text>
           </View>
         </View>
       </View>
+      {isLoading && (
+        <View
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ActivityIndicator size="large" color="#B9E1D3" />
+        </View>
+      )}
     </View>
   );
 };

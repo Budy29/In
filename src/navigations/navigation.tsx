@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {View, Text} from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import DrawerNavigation from './drawerNavigator';
+import { View, Text } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Drawer from './drawerNavigator';
 import Splace from '../component/splash';
 import Login from '../screen/login';
 import Signup from '../screen/signup';
@@ -33,63 +33,65 @@ function Navigation() {
       <Stack.Screen
         name="Splace"
         component={Splace}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Login"
         component={Login}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Home"
         component={Home}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
+
+      />
+      <Stack.Screen
+        name="Drawer"
+        component={Drawer}
+        options={{ headerShown: false, title: 'Drawer' }}
       />
       <Stack.Screen
         name="Signup"
         component={Signup}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-      <Stack.Screen name="Scr" component={Scr} options={{headerShown: false}} />
+      <Stack.Screen name="Scr" component={Scr} options={{ headerShown: false }} />
       <Stack.Screen
         name="Barang"
         component={Barang}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Dokumen"
         component={TabDocument}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Laporan"
         component={Laporan}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Biaya"
         component={Biaya}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="BiayaTambahan"
         component={BiayaTambahan}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="Drawer"
-        component={DrawerNavigation}
-        options={{headerShown: false}}
-      />
+
       <Stack.Screen
         name="TambahKategori"
         component={TambahKategiori}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="TambahBarang"
         component={TambahBarang}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       {/* <Stack.Screen name="Drawer" component={DrawerNavigation} /> */}
     </Stack.Navigator>

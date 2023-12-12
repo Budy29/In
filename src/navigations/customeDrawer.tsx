@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import {
   DrawerHome,
   DrawerBarang,
@@ -8,14 +8,14 @@ import {
   DrawerLaporan,
   DrawerLogout,
 } from '../asset';
-import {useNavigation} from '@react-navigation/native';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 
 const CustomDrawer = () => {
   const navigation = useNavigation();
   const [userData, setUserData] = useState('');
 
   return (
-    <View style={{flex: 1, paddingTop: 0, paddingHorizontal: 0}}>
+    <View style={{ flex: 1, paddingTop: 0, paddingHorizontal: 0 }}>
       <View
         style={{
           backgroundColor: '#B9E1D3',
@@ -38,7 +38,7 @@ const CustomDrawer = () => {
       </View>
       <View style={styles.container}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Home' as never)}
+          onPress={() => navigation.dispatch(DrawerActions.closeDrawer())}
           style={styles.btn}>
           <DrawerHome />
           <Text style={styles.btn_title}>Beranda</Text>

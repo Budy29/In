@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   ScrollView,
@@ -10,12 +10,13 @@ import {
   Modal,
   Pressable,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
-import {Batal, Magnifier, Camera} from '../asset';
+import { Batal, Magnifier, Camera, Cross } from '../asset';
 import ImageCropPicker from 'react-native-image-crop-picker';
-import {AdditionalPrice, Product} from '../constants/Model';
-import {useAuthStore} from '../stores/useAuthStore';
-import {BASE_API_URL} from '@env';
+import { AdditionalPrice, Product } from '../constants/Model';
+import { useAuthStore } from '../stores/useAuthStore';
+import { BASE_API_URL } from '@env';
 import axios from 'axios';
 
 interface Props {
@@ -136,12 +137,12 @@ const DocumenTransaksi: React.FC<Props> = ({
         onRequestClose={onCloseModal}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <TouchableOpacity onPress={onCloseModal}>
-              <Text>Close</Text>
+            <TouchableOpacity style={{ left: '40%', top: '-5%' }} onPress={onCloseModal}>
+              <Cross />
             </TouchableOpacity>
             <ScrollView
-              style={{width: '100%'}}
-              contentContainerStyle={{alignItems: 'center'}}>
+              style={{ width: '100%' }}
+              contentContainerStyle={{ alignItems: 'center' }}>
               {/* dropdown */}
               <TextInput
                 placeholder="Barang"
@@ -238,6 +239,21 @@ const DocumenTransaksi: React.FC<Props> = ({
             </ScrollView>
           </View>
         </View>
+        {isLoading && (
+          <View
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              position: 'absolute',
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <ActivityIndicator size="large" color="#B9E1D3" />
+          </View>
+        )}
       </Modal>
     </View>
   );

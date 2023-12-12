@@ -31,6 +31,7 @@ import DrawerLogout from './icon/Logout.svg';
 import DrawerDolasrs from './icon/Dolarssss.svg';
 import Eye from './icon/Eye.svg';
 import EyeLock from './icon/Eye-closed.svg';
+import Cross from './icon/Cross.svg';
 
 export {
   LogoAwal,
@@ -66,4 +67,5 @@ export {
   DrawerDolasrs,
   Eye,
   EyeLock,
+  Cross,
 };

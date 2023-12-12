@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -6,18 +6,19 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import {Book, Box, ReportAtivity, Dollars, Menu, Add_icon} from '../asset';
+import { Book, Box, ReportAtivity, Dollars, Menu, Add_icon } from '../asset';
 import {
   useNavigation,
   DrawerActionType,
   DrawerActions,
 } from '@react-navigation/native';
-import {Category} from '../constants/Model';
-import {useAuthStore} from '../stores/useAuthStore';
+import { Category } from '../constants/Model';
+import { useAuthStore } from '../stores/useAuthStore';
 import axios from 'axios';
-import {BASE_API_URL} from '@env';
+import { BASE_API_URL } from '@env';
 
-const App = () => {
+const App: React.FC = ({ drawerRef }) => {
+
   const navigation = useNavigation();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -67,9 +68,11 @@ const App = () => {
       <View style={styles.container_header}>
         {/* <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.openDrawer())} > */}
         <TouchableOpacity
-          onPress={() => navigation.navigate('Drawer' as never)}>
+
+          onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+        >
           <Menu
-          // onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+            onPress={() => navigation.navigate('Drawer')}
           />
         </TouchableOpacity>
       </View>
@@ -94,7 +97,7 @@ const App = () => {
               alignItems: 'center',
             }}>
             <Box />
-            <Text style={{color: '#000000', fontSize: 24, fontWeight: '800'}}>
+            <Text style={{ color: '#000000', fontSize: 24, fontWeight: '800' }}>
               Barang
             </Text>
           </TouchableOpacity>
@@ -109,7 +112,7 @@ const App = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Book style={{marginTop: '5%'}} />
+            <Book style={{ marginTop: '5%' }} />
             <Text
               style={{
                 color: '#000000',
@@ -141,7 +144,7 @@ const App = () => {
               alignItems: 'center',
               marginTop: '-10%',
             }}>
-            <Dollars style={{marginTop: '5%'}} />
+            <Dollars style={{ marginTop: '5%' }} />
             <Text
               style={{
                 color: '#000000',
@@ -165,7 +168,7 @@ const App = () => {
               marginTop: '-10%',
             }}>
             <ReportAtivity />
-            <Text style={{color: '#000000', fontSize: 24, fontWeight: '800'}}>
+            <Text style={{ color: '#000000', fontSize: 24, fontWeight: '800' }}>
               Laporan
             </Text>
           </TouchableOpacity>
@@ -180,7 +183,7 @@ const App = () => {
             height: '7%',
             alignItems: 'center',
           }}>
-          <Text style={{color: '#000000', fontSize: 20, fontWeight: '800'}}>
+          <Text style={{ color: '#000000', fontSize: 20, fontWeight: '800' }}>
             Category
           </Text>
           <TouchableOpacity
@@ -192,7 +195,7 @@ const App = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Add_icon style={{marginLeft: '0%'}} />
+            <Add_icon style={{ marginLeft: '0%' }} />
           </TouchableOpacity>
         </View>
         <ScrollView style={styles.box_scrol}>

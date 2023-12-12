@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -11,12 +11,12 @@ import {
   Alert,
   Pressable,
 } from 'react-native';
-import {Add_icon, IconLeft} from '../asset';
-import {useNavigation} from '@react-navigation/native';
+import { Add_icon, IconLeft } from '../asset';
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import {BASE_API_URL} from '@env';
-import {useAuthStore} from '../stores/useAuthStore';
-import {Product} from '../constants/Model';
+import { BASE_API_URL } from '@env';
+import { useAuthStore } from '../stores/useAuthStore';
+import { Product } from '../constants/Model';
 
 const App = () => {
   const navigation = useNavigation();
@@ -36,7 +36,7 @@ const App = () => {
     },
   ]);
 
-  const {accessToken} = useAuthStore(state => ({
+  const { accessToken } = useAuthStore(state => ({
     accessToken: state.accessToken,
   }));
 
@@ -97,7 +97,7 @@ const App = () => {
               <Text style={styles.modalText}>
                 Apakah anda yakin ingin menghapus barang ini ?
               </Text>
-              <View style={{display: 'flex', flexDirection: 'row', gap: 4}}>
+              <View style={{ display: 'flex', flexDirection: 'row', gap: 4 }}>
                 <Pressable
                   style={[styles.button, styles.buttonNext]}
                   onPress={() => handleDelete(idHapus)}>
@@ -128,7 +128,7 @@ const App = () => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <IconLeft />
         </TouchableOpacity>
-        <View style={{width: '80%', left: '10%', alignItems: 'center'}}>
+        <View style={{ width: '80%', left: '10%', alignItems: 'center' }}>
           <Text style={styles.title}>Barang</Text>
         </View>
       </View>
@@ -151,10 +151,10 @@ const App = () => {
                     marginLeft: '4%',
                   }}>
                   <Text style={styles.titleProduk}>{item.nama_barang}</Text>
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.produkIsi}>{item.barcode}</Text>
                   </View>
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.produkIsi}>{item.harga_barang}</Text>
                     <Text style={styles.produkIsi}>,</Text>
                     <Text style={styles.produkIsi}>
@@ -171,14 +171,17 @@ const App = () => {
                     flexDirection: 'row',
                     alignItems: 'center',
                     gap: 20,
+                    // backgroundColor: 'yellow'
                   }}>
-                  <Text style={styles.stock}>Stok: {item.stok}</Text>
+                  <View style={{ width: 70, maxWidth: 75, left: 15 }}>
+                    <Text style={styles.stock}>Stok: {item.stok}</Text>
+                  </View>
                   <TouchableOpacity
                     onPress={() => {
                       setIdHapus(parseInt(item.id));
                       setModalVisible(true);
                     }}>
-                    <Text style={{color: '#ff0000'}}>hapus</Text>
+                    <Text style={{ color: '#ff0000' }}>hapus</Text>
                   </TouchableOpacity>
                 </View>
               </View>

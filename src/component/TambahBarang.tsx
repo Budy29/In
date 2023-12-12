@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -8,19 +8,20 @@ import {
   TextInput,
   ScrollView,
   Image,
+  ActivityIndicator,
 } from 'react-native';
-import {Cancel, Save, Camera} from '../asset';
-import {BarCodeReadEvent, RNCamera} from 'react-native-camera';
+import { Cancel, Save, Camera } from '../asset';
+import { BarCodeReadEvent, RNCamera } from 'react-native-camera';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import ImageCropPicker from 'react-native-image-crop-picker';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import {BASE_API_URL} from '@env';
-import {useAuthStore} from '../stores/useAuthStore';
-import {Category} from '../constants/Model';
+import { BASE_API_URL } from '@env';
+import { useAuthStore } from '../stores/useAuthStore';
+import { Category } from '../constants/Model';
 import SelectDropdown from 'react-native-select-dropdown';
 
-interface AppProps {}
+interface AppProps { }
 const App: React.FC<AppProps> = () => {
   const navigation = useNavigation();
   const [scanned, setScanned] = useState<boolean>(false);
@@ -35,7 +36,7 @@ const App: React.FC<AppProps> = () => {
       setScanned(false);
     }
   }, [scanned, barcodeData]);
-  const handleBarCodeScanned = ({data}: BarCodeReadEvent) => {
+  const handleBarCodeScanned = ({ data }: BarCodeReadEvent) => {
     setScanned(true);
     setBarcodeData(data || '');
   };
@@ -137,17 +138,17 @@ const App: React.FC<AppProps> = () => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Cancel />
         </TouchableOpacity>
-        <View style={{width: '70%', marginLeft: '2%', alignItems: 'center'}}>
+        <View style={{ width: '70%', marginLeft: '2%', alignItems: 'center' }}>
           <Text style={styles.title}>Tambahkan Barang</Text>
         </View>
-        <TouchableOpacity style={{marginLeft: '5%'}}>
+        {/* <TouchableOpacity style={{marginLeft: '5%'}}>
           <Save />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <View style={styles.container_Box}>
         <ScrollView
-          style={{width: '100%'}}
-          contentContainerStyle={{alignItems: 'center'}}>
+          style={{ width: '100%' }}
+          contentContainerStyle={{ alignItems: 'center' }}>
           <TextInput
             placeholder="Barcode"
             placeholderTextColor="#000000"
@@ -219,7 +220,7 @@ const App: React.FC<AppProps> = () => {
           {uploadedImage && ( // Menampilkan gambar yang diunggah jika ada
             <View>
               <Image
-                source={{uri: uploadedImage.path}}
+                source={{ uri: uploadedImage.path }}
                 style={{
                   width: 100,
                   height: 100,
@@ -236,7 +237,7 @@ const App: React.FC<AppProps> = () => {
                   left: '15%',
                   top: '15%',
                 }}>
-                <Cancel style={{widh: '70%', height: '70%'}} />
+                <Cancel style={{ widh: '70%', height: '70%' }} />
               </TouchableOpacity>
             </View>
           )}
@@ -265,9 +266,9 @@ const App: React.FC<AppProps> = () => {
               visible={isCameraVisible}
               onRequestClose={() => setIsCameraVisible(false)}>
               <QRCodeScanner
-                onRead={({data}) => {
+                onRead={({ data }) => {
                   setData(data);
-                  handleBarCodeScanned({data});
+                  handleBarCodeScanned({ data });
                   handleQRCodeClose(); // Menutup QRCodeScanner setelah berhasil memindai
                 }}
                 reactivate={true}
@@ -338,6 +339,21 @@ const App: React.FC<AppProps> = () => {
           </TouchableOpacity>
         </ScrollView>
       </View>
+      {isLoading && (
+        <View
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ActivityIndicator size="large" color="#B9E1D3" />
+        </View>
+      )}
     </View>
   );
 };

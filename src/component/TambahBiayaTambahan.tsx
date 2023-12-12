@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -6,12 +6,13 @@ import {
   Modal,
   StyleSheet,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
-import {Cancel} from '../asset';
-import {useNavigation} from '@react-navigation/native';
-import {useAuthStore} from '../stores/useAuthStore';
+import { Cancel } from '../asset';
+import { useNavigation } from '@react-navigation/native';
+import { useAuthStore } from '../stores/useAuthStore';
 import axios from 'axios';
-import {BASE_API_URL} from '@env';
+import { BASE_API_URL } from '@env';
 
 const App = () => {
   const navigation = useNavigation();
@@ -78,6 +79,21 @@ const App = () => {
           <Text style={styles.btnTitle}>Simpan</Text>
         </TouchableOpacity>
       </View>
+      {isLoading && (
+        <View
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ActivityIndicator size="large" color="#B9E1D3" />
+        </View>
+      )}
     </Modal>
   );
 };

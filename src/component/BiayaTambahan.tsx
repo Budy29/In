@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -10,12 +10,12 @@ import {
   Image,
   ActivityIndicator,
 } from 'react-native';
-import {Add, Add_icon, Cancel, IconLeft} from '../asset';
-import {useNavigation} from '@react-navigation/native';
-import {AdditionalPrice} from '../constants/Model';
+import { Add, Add_icon, Cancel, IconLeft } from '../asset';
+import { useNavigation } from '@react-navigation/native';
+import { AdditionalPrice } from '../constants/Model';
 import axios from 'axios';
-import {BASE_API_URL} from '@env';
-import {useAuthStore} from '../stores/useAuthStore';
+import { BASE_API_URL } from '@env';
+import { useAuthStore } from '../stores/useAuthStore';
 
 const App = () => {
   const navigation = useNavigation();
@@ -52,10 +52,10 @@ const App = () => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <IconLeft />
         </TouchableOpacity>
-        <View style={{width: '80%', left: '10%', alignItems: 'center'}}>
+        <View style={{ width: '80%', left: '10%', alignItems: 'center' }}>
           <Text style={styles.title}>Biaya Tambahan</Text>
         </View>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigation.navigate('BiayaTambahan' as never)}
           style={{
             width: '10%',
@@ -64,12 +64,12 @@ const App = () => {
             justifyContent: 'flex-end',
           }}>
           <Add />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <View style={styles.container_Box}>
         <ScrollView style={styles.containerScrool}>
           <View style={styles.contentProduk}>
-            <View style={{marginLeft: '0%', width: '65%', paddingLeft: '2%'}}>
+            <View style={{ marginLeft: '0%', width: '65%', paddingLeft: '2%' }}>
               <Text style={styles.titleProduk}>Plastik</Text>
               <Text style={styles.produkIsi}>Keterangan</Text>
             </View>
@@ -83,8 +83,29 @@ const App = () => {
               <Text style={styles.Price}>/Peces</Text>
             </View>
           </View>
+
         </ScrollView>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('BiayaTambahan' as never)}
+          style={styles.addProduk}>
+          <Add_icon />
+        </TouchableOpacity>
       </View>
+      {isLoading && (
+        <View
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ActivityIndicator size="large" color="#B9E1D3" />
+        </View>
+      )}
     </View>
   );
 };
@@ -150,5 +171,16 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#000000',
     marginTop: '20%',
+  },
+  addProduk: {
+    width: 70,
+    height: 70,
+    backgroundColor: '#D9D9D9',
+    zIndex: 3,
+    marginLeft: '75%',
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '-25%',
   },
 });
