@@ -18,6 +18,8 @@ import { AdditionalPrice, Product } from '../constants/Model';
 import { useAuthStore } from '../stores/useAuthStore';
 import { BASE_API_URL } from '@env';
 import axios from 'axios';
+import SelectDropdown from 'react-native-select-dropdown';
+import { useTransaksi } from '../stores/useInventoryStore';
 
 interface Props {
   openModal: boolean;
@@ -31,6 +33,9 @@ const DocumenTransaksi: React.FC<Props> = ({
   onCloseModal,
 }) => {
   const [uploadedImage, setUploadedImage] = useState<any>(null);
+
+
+  const { transaksi, setTransaksi } = useTransaksi()
 
   const addImage = async () => {
     try {
@@ -56,6 +61,7 @@ const DocumenTransaksi: React.FC<Props> = ({
   const [catatan, setCatatan] = useState<string>('');
   const [jumlah, setJumlah] = useState<number>(0);
   const [totalBiaya, setTotalBiaya] = useState<string>('');
+  const [idBarang, setIdBarang] = useState(0)
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const accessToken = useAuthStore(state => state.accessToken);
@@ -71,6 +77,7 @@ const DocumenTransaksi: React.FC<Props> = ({
 
       setIsLoading(false);
       setBarang(response.data.messages.data);
+      console.log(response)
     } catch (error) {
       setIsLoading(false);
       console.log(error);
@@ -95,37 +102,57 @@ const DocumenTransaksi: React.FC<Props> = ({
     }
   };
 
-  const handleSubmit = async () => {
+  const getTransaksi = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        `${BASE_API_URL}/transaksi`,
-        {
-          id_barang: 1,
-          biaya_tambahan: biayaTambahan,
-          catatan,
-          jumlah,
-          total_biaya: harga * jumlah + biayaTambahan,
+      const response = await axios.get(`${BASE_API_URL}/transaksi`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
+      });
+      setTransaksi(response.data.messages.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    // total_biaya: harga * jumlah + biayaTambahan,
+    try {
+      const response = await axios.get(
+        `${BASE_API_URL}/transaksip?id_barang=1&biaya_tambahan=${biayaTambahan}&catatan=${catatan}&jumlah=${jumlah}&total_biaya=${harga * jumlah + biayaTambahan}`,
+        // {
+        //   id_barang: 1,
+        //   biaya_tambahan: biayaTambahan,
+        //   catatan,
+        //   jumlah,
+        //   total_biaya: harga * jumlah + biayaTambahan,
+        // },
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${accessToken}`,
+        //   },
+        // },
       );
 
       setIsLoading(false);
-      console.log(response);
+      getTransaksi()
+      console.log('ini adalah respon:', response);
       // setBiayaTambahan(response.data.messages)
+      onCloseModal()
     } catch (error) {
       setIsLoading(false);
       console.log(error);
     }
   };
 
+
   useEffect(() => {
     getDataProducts();
-    getBiayaTambahan();
+    // getBiayaTambahan();
   }, []);
 
   return (
@@ -144,18 +171,54 @@ const DocumenTransaksi: React.FC<Props> = ({
               style={{ width: '100%' }}
               contentContainerStyle={{ alignItems: 'center' }}>
               {/* dropdown */}
-              <TextInput
+              <SelectDropdown
+                data={barang}
+                onSelect={(selectedItem, index) => {
+                  setIdBarang(selectedItem.id);
+                  setHarga(selectedItem.harga_barang);
+
+                }}
+                defaultButtonText="Pilih Barang"
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem.nama_barang;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item.nama_barang;
+                }}
+                dropdownIconPosition={'left'}
+                buttonStyle={{
+                  width: '85%',
+                  borderBottomWidth: 2,
+                  paddingTop: '1%',
+                  marginTop: '5%',
+                  backgroundColor: '#E6E6E6',
+                  borderRadius: 5,
+                  height: 74,
+                  paddingLeft: 15,
+                }}
+                buttonTextStyle={{
+                  fontFamily: 'Fredoka-Bold',
+                  color: '#000',
+                  textAlign: 'left',
+                  fontWeight: 'bold',
+                  fontSize: 20,
+                }}
+              />
+              {/* <TextInput
                 placeholder="Barang"
                 placeholderTextColor="#000000"
                 style={styles.input}
-              />
+              /> */}
               {/* otomatis diambil dari barang yang dipilih */}
-              <TextInput
-                placeholder="Harga"
-                placeholderTextColor="#000000"
-                style={styles.input}
-                onChangeText={text => setHarga(parseInt(text))}
-              />
+              {harga != 0 &&
+                <Text style={styles.input}>{harga}</Text>
+                // <TextInput
+                //   placeholder="Harga"
+                //   placeholderTextColor="#000000"
+                //   style={styles.input}
+                //   onChangeText={text => setHarga(parseInt(text))}
+                // />
+              }
               <TextInput
                 placeholder="Jumlah "
                 placeholderTextColor="#000000"

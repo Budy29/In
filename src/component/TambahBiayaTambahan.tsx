@@ -13,8 +13,28 @@ import { useNavigation } from '@react-navigation/native';
 import { useAuthStore } from '../stores/useAuthStore';
 import axios from 'axios';
 import { BASE_API_URL } from '@env';
+import { useBiayaTambahan } from '../stores/useInventoryStore';
 
 const App = () => {
+  const { biayaTambahan, setBiayaTambahan } = useBiayaTambahan()
+
+  const getBiayaTambahan = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${BASE_API_URL}/biayatambahan`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      setIsLoading(false);
+      // console.log(response);
+      setBiayaTambahan(response.data.messages.data)
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
+  };
   const navigation = useNavigation();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -27,21 +47,23 @@ const App = () => {
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        `${BASE_API_URL}/biayatambahan`,
-        {
-          nama: name,
-          harga: price,
-          catatan: note,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
+      const response = await axios.get(
+        `${BASE_API_URL}/biayatambahanp?nama=${name}&harga=${price}&keterangan=${note}`,
+        // {
+        //   nama: name,
+        //   harga: price,
+        //   catatan: note,
+        // },
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${accessToken}`,
+        //   },
+        // },
       );
       setIsLoading(false);
+      getBiayaTambahan();
       console.log(response);
+      navigation.goBack()
     } catch (error) {
       setIsLoading(false);
       console.log(error);

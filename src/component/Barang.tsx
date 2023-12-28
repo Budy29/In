@@ -17,24 +17,12 @@ import axios from 'axios';
 import { BASE_API_URL } from '@env';
 import { useAuthStore } from '../stores/useAuthStore';
 import { Product } from '../constants/Model';
+import { useProducts } from '../stores/useInventoryStore';
 
 const App = () => {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [products, setProducts] = useState<Product[]>([
-    {
-      barcode: '',
-      catatan: '',
-      created_at: '',
-      gambar: '',
-      harga_barang: '',
-      id: '',
-      id_kategori: '',
-      nama_barang: '',
-      stok: '',
-      updated_at: '',
-    },
-  ]);
+  const { products, setProducts } = useProducts()
 
   const { accessToken } = useAuthStore(state => ({
     accessToken: state.accessToken,
@@ -77,6 +65,7 @@ const App = () => {
       setIsLoading(false);
     }
   };
+
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [idHapus, setIdHapus] = useState(0);

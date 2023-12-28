@@ -9,6 +9,7 @@ import {
   ScrollView,
   Image,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import { Cancel, Save, Camera } from '../asset';
 import { BarCodeReadEvent, RNCamera } from 'react-native-camera';
@@ -20,6 +21,7 @@ import { BASE_API_URL } from '@env';
 import { useAuthStore } from '../stores/useAuthStore';
 import { Category } from '../constants/Model';
 import SelectDropdown from 'react-native-select-dropdown';
+import { useProducts } from '../stores/useInventoryStore';
 
 interface AppProps { }
 const App: React.FC<AppProps> = () => {
@@ -97,34 +99,90 @@ const App: React.FC<AppProps> = () => {
     } catch (error) {
       setIsLoading(false);
       console.log(error);
+      Alert.alert(error.response.data.message);
+    }
+  };
+
+  const formData = new FormData();
+  // formData.append('gambar', {
+  //   uri: 'file:///storage/emulated/0/Android/data/com.inventory/files/Pictures/6810cd45-5e12-44a0-a1c3-72319989d244.jpg',
+  //   type: 'image/jpeg',
+  //   name: 'image.jpg',
+  // });
+  formData.append('barcode', barcodeData);
+  formData.append('nama_barang', namaBarang);
+  formData.append('harga_barang', harga);
+  formData.append('stok', stok);
+  formData.append('catatan', catatan);
+  formData.append('id_kategori', kategori);
+
+  useEffect(() => {
+    console.log("uploaded image", uploadedImage)
+    if (uploadedImage) {
+      formData.append('gambar', {
+        uri: uploadedImage.path,
+        type: 'image/jpeg',
+        name: 'image.jpg',
+      });
+    }
+  }, [uploadedImage])
+
+  const { products, setProducts } = useProducts()
+  const getDataProducts = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${BASE_API_URL}/barang`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      setIsLoading(false);
+      setProducts(response.data.messages.data);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
     }
   };
 
   const handleSubmit = async () => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       const response = await axios.post(
-        `${BASE_API_URL}/barang`,
-        {
-          barcode: barcodeData,
-          nama_barang: namaBarang,
-          harga_barang: harga,
-          stok,
-          catatan,
-          id_kategori: kategori,
-          gambar: uploadedImage,
-        },
+        `${BASE_API_URL}/barangp`,
+        formData,
         {
           headers: {
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${accessToken}`,
           },
         },
       );
-      setIsLoading(false);
       console.log(response);
+      navigation.goBack()
+      getDataProducts()
     } catch (error) {
+      console.log(error.response.data.messages)
+      console.log(error)
+
+      // const errors = error.response.data.errors;
+
+      // let errorMessages = '';
+      // for (const key in errors) {
+      //   if (errors.hasOwnProperty(key)) {
+      //     if (
+      //       errors[key] ==
+      //       'The password field must be at least 8 characters in length.'
+      //     ) {
+      //       errorMessages += `Password kurang dari 8 karakter\n`;
+      //     } else {
+      //       errorMessages += `${errors[key]}\n`;
+      //     }
+      //   }
+      // }
+      // Alert.alert('Error', errorMessages);
+    } finally {
       setIsLoading(false);
-      console.log(error);
     }
   };
 

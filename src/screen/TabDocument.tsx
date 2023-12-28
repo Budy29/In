@@ -20,6 +20,7 @@ import { Product, Transactions } from '../constants/Model';
 import { useState } from 'react';
 import DocumenTransaksi from '../component/DocumenTransaksi';
 import DokumenMasuk from '../component/DokumenMasuk';
+import { useTransaksi } from '../stores/useInventoryStore';
 
 const SecondRoute = () => {
   const accessToken = useAuthStore(state => state.accessToken);
@@ -193,7 +194,9 @@ const ThridRoute = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const accessToken = useAuthStore(state => state.accessToken);
 
-  const [transaksi, setTransaksi] = useState<Transactions[]>([]);
+  // const [transaksi, setTransaksi] = useState<Transactions[]>([]);
+
+  const { transaksi, setTransaksi } = useTransaksi()
 
   const getTransaksi = async () => {
     setIsLoading(true);
@@ -203,7 +206,8 @@ const ThridRoute = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      setTransaksi(response.data.messages.data);
+      console.log('halo ini adalah consol')
+      setTransaksi(response.data.messages.data)
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -228,7 +232,7 @@ const ThridRoute = () => {
               <Image source={{}} style={styles.Image} />
             </View>
             <View style={{ marginLeft: '5%' }}>
-              <Text style={styles.titleProduk}>tambahi nama baran jun</Text>
+              <Text style={styles.titleProduk}>{item.nama_barang}</Text>
               <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.produkIsi}>{item.created_at} .</Text>
                 <Text style={styles.produkIsi}>{item.id}</Text>
@@ -237,7 +241,7 @@ const ThridRoute = () => {
                 <Text style={styles.produkIsi}>Rp{item.total_biaya} . </Text>
                 <Text style={styles.produkIsi}>{item.jumlah} . </Text>
                 <Text style={styles.produkIsi}>{item.catatan} . </Text>
-                <Text style={styles.produkIsi}>tambahi kategori jun </Text>
+                <Text style={styles.produkIsi}>{item.nama_kategori}</Text>
               </View>
             </View>
           </View>
@@ -324,7 +328,7 @@ export default function TabDocument() {
           onIndexChange={setIndex}
           initialLayout={{ width: layout.width }}
           renderTabBar={props => (
-            <TabBar {...props} style={{ backgroundColor: '#44E7AC' }} />
+            <TabBar {...props} style={{ backgroundColor: '#44E7AC', }} />
           )}
         />
       </View>

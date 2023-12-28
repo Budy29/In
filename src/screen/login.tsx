@@ -39,6 +39,7 @@ const App = () => {
       });
       setIsLoading(false);
       setAccessToken(response.data.token);
+      console.log("berhasil", response.data.token)
       if (response.data.token) {
         navigation.navigate('Home' as never);
       }

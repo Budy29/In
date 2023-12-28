@@ -16,13 +16,16 @@ import { Category } from '../constants/Model';
 import { useAuthStore } from '../stores/useAuthStore';
 import axios from 'axios';
 import { BASE_API_URL } from '@env';
+import { useCategoryStore } from '../stores/useInventoryStore';
 
 const App: React.FC = ({ drawerRef }) => {
 
   const navigation = useNavigation();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [categories, setCategories] = useState<Category[]>([]);
+  // const [categories, setCategories] = useState<Category[]>([]);
+
+  const { categories, setCategories } = useCategoryStore()
 
   const accessToken = useAuthStore(state => state.accessToken);
 
@@ -36,31 +39,33 @@ const App: React.FC = ({ drawerRef }) => {
       });
       setIsLoading(false);
       setCategories(response.data.messages.data);
+      console.log("response", response)
     } catch (error) {
       setIsLoading(false);
       console.log(error);
     }
   };
 
-  const getUserProfile = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get(`${BASE_API_URL}/users`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      setIsLoading(false);
-      console.log(response.data.messages.data);
-    } catch (error) {
-      setIsLoading(false);
-      console.log(error);
-    }
-  };
+
+  // const getUserProfile = async () => {
+  //   setIsLoading(true);
+  //   try {
+  //     const response = await axios.get(`${BASE_API_URL}/users`, {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     });
+  //     setIsLoading(false);
+  //     console.log(response.data.messages.data);
+  //   } catch (error) {
+  //     setIsLoading(false);
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
     getCategories();
-    getUserProfile();
+    // getUserProfile();
   }, []);
 
   return (

@@ -16,11 +16,15 @@ import { AdditionalPrice } from '../constants/Model';
 import axios from 'axios';
 import { BASE_API_URL } from '@env';
 import { useAuthStore } from '../stores/useAuthStore';
+import { useBiayaTambahan } from '../stores/useInventoryStore';
 
 const App = () => {
   const navigation = useNavigation();
 
-  const [biayaTambahan, setBiayaTambahan] = useState<AdditionalPrice[]>([]);
+  // const [biayaTambahan, setBiayaTambahan] = useState<AdditionalPrice[]>([]);
+
+  const { biayaTambahan, setBiayaTambahan } = useBiayaTambahan()
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const accessToken = useAuthStore(state => state.accessToken);
 
@@ -34,17 +38,18 @@ const App = () => {
       });
 
       setIsLoading(false);
-      console.log(response);
-      // setBiayaTambahan(response.data.messages)
+      // console.log(response);
+      setBiayaTambahan(response.data.messages.data)
     } catch (error) {
       setIsLoading(false);
       console.log(error);
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     getBiayaTambahan();
   }, []);
+
 
   return (
     <View style={styles.container}>
@@ -68,21 +73,24 @@ const App = () => {
       </View>
       <View style={styles.container_Box}>
         <ScrollView style={styles.containerScrool}>
-          <View style={styles.contentProduk}>
-            <View style={{ marginLeft: '0%', width: '65%', paddingLeft: '2%' }}>
-              <Text style={styles.titleProduk}>Plastik</Text>
-              <Text style={styles.produkIsi}>Keterangan</Text>
+          {biayaTambahan.map(item => (
+            <View style={styles.contentProduk}>
+              <View style={{ marginLeft: '0%', width: '65%', paddingLeft: '2%' }}>
+                <Text style={styles.titleProduk}>{item.nama}</Text>
+                <Text style={styles.produkIsi}>{item.keterangan}</Text>
+              </View>
+              <View
+                style={{
+                  width: '30%',
+                  justifyContent: 'center',
+                  flexDirection: 'row',
+                }}>
+                <Text style={styles.Price}>{item.harga}</Text>
+                <Text style={styles.Price}>/Peces</Text>
+              </View>
             </View>
-            <View
-              style={{
-                width: '30%',
-                justifyContent: 'center',
-                flexDirection: 'row',
-              }}>
-              <Text style={styles.Price}> Rp. 200.000</Text>
-              <Text style={styles.Price}>/Peces</Text>
-            </View>
-          </View>
+          ))}
+
 
         </ScrollView>
         <TouchableOpacity

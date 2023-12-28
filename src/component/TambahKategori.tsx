@@ -13,8 +13,28 @@ import { useNavigation } from '@react-navigation/native';
 import { useAuthStore } from '../stores/useAuthStore';
 import axios from 'axios';
 import { BASE_API_URL } from '@env';
+import { useCategoryStore } from '../stores/useInventoryStore';
 
 const App = () => {
+
+  const { categories, setCategories } = useCategoryStore()
+
+  const getCategories = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${BASE_API_URL}/kategori`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setIsLoading(false);
+      setCategories(response.data.messages.data);
+      console.log("response", response)
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
+  };
   const navigation = useNavigation();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -26,25 +46,30 @@ const App = () => {
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        `${BASE_API_URL}/kategori`,
-        {
-          nama_kategori: name,
-          keterangan: note,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
+      const response = await axios.get(
+        `${BASE_API_URL}/kategorip?nama_kategori=${name}&keterangan=${note}`,
+        // {
+        //   nama_kategori: name,
+        //   keterangan: note,
+        // },
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${accessToken}`,
+        //   },
+        // },
       );
       setIsLoading(false);
-      console.log(response);
+      console.log("sukses", response);
+      getCategories()
+      navigation.navigate("Home" as never)
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
+      console.log(
+        "error", error);
+      // console.log(error.response.message)
     }
   };
+
 
   return (
     <Modal style={styles.container}>

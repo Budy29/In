@@ -1,21 +1,21 @@
 export interface Product {
     barcode: string,
     catatan: string,
-    created_at : string,
-    gambar : string,
-    harga_barang : string,
-    id : string,
-    id_kategori : string,
-    nama_barang : string,
-    stok : string,
-    updated_at : string
+    created_at: string,
+    gambar: string,
+    harga_barang: string,
+    id: string,
+    id_kategori: string,
+    nama_barang: string,
+    stok: string,
+    updated_at: string
 }
 
 export interface Category {
     id: string,
     nama_kategori: string,
-    created_at : string,
-    updated_at : string
+    created_at: string,
+    updated_at: string
     keterangan: string
 }
 
@@ -32,7 +32,11 @@ export interface Transactions {
     biaya_tambahan: string,
     catatan: string,
     jumlah: string,
-    total_biaya: string
+    total_biaya: string,
+    nama_barang: string,
+    id: string,
+    created_at: string,
+    nama_kategori: string
 }
 
 export interface AdditionalPrice {
