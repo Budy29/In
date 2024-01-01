@@ -67,6 +67,7 @@ const App: React.FC = ({ drawerRef }) => {
     getCategories();
     // getUserProfile();
   }, []);
+  console.log('AKSES Token', accessToken)
 
   return (
     <View style={styles.container}>

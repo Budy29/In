@@ -123,7 +123,7 @@ const DocumenTransaksi: React.FC<Props> = ({
     // total_biaya: harga * jumlah + biayaTambahan,
     try {
       const response = await axios.get(
-        `${BASE_API_URL}/transaksip?id_barang=1&biaya_tambahan=${biayaTambahan}&catatan=${catatan}&jumlah=${jumlah}&total_biaya=${harga * jumlah + biayaTambahan}`,
+        `${BASE_API_URL}/transaksip?id_barang=${idBarang}&biaya_tambahan=${biayaTambahan}&catatan=${catatan}&jumlah=${jumlah}&total_biaya=${harga * jumlah + biayaTambahan}`,
         // {
         //   id_barang: 1,
         //   biaya_tambahan: biayaTambahan,
@@ -193,15 +193,16 @@ const DocumenTransaksi: React.FC<Props> = ({
                   marginTop: '5%',
                   backgroundColor: '#E6E6E6',
                   borderRadius: 5,
-                  height: 74,
+                  height: 54,
                   paddingLeft: 15,
+
                 }}
                 buttonTextStyle={{
                   fontFamily: 'Fredoka-Bold',
                   color: '#000',
                   textAlign: 'left',
                   fontWeight: 'bold',
-                  fontSize: 20,
+                  fontSize: 16,
                 }}
               />
               {/* <TextInput
@@ -274,7 +275,7 @@ const DocumenTransaksi: React.FC<Props> = ({
               <TouchableOpacity style={styles.btn1} onPress={handleSubmit}>
                 <Text style={styles.btnTitle1}>Simpan</Text>
               </TouchableOpacity>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={{
                   width: 30,
                   height: 30,
@@ -285,7 +286,7 @@ const DocumenTransaksi: React.FC<Props> = ({
                   left: '82%',
                 }}>
                 <Magnifier />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               {/* <TouchableOpacity
                 onPress={addImage}
                 style={{
@@ -354,7 +355,7 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     backgroundColor: '#E6E6E6',
     borderRadius: 5,
-    height: 40,
+    height: 54,
     paddingLeft: 20,
   },
   btn1: {

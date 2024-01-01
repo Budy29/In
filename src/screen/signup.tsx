@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -10,13 +10,13 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import {Wave1, Wave2} from '../asset';
+import { Wave1, Wave2 } from '../asset';
 import axios from 'axios';
-import {useNavigation} from '@react-navigation/native';
-import {BASE_API_URL} from '@env';
+import { useNavigation } from '@react-navigation/native';
+import { BASE_API_URL } from '@env';
 
 const App = () => {
-  const {width, height} = Dimensions.get('window');
+  const { width, height } = Dimensions.get('window');
 
   const [namaKaryawan, setNamaKaryawan] = useState('');
   const [username, setUsername] = useState('');
@@ -65,6 +65,10 @@ const App = () => {
     }
     setIsLoading(false);
   };
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <View style={styles.container}>
@@ -74,9 +78,9 @@ const App = () => {
       </View>
       <View style={styles.containerBoxInput}>
         <ScrollView
-          style={{width: '100%', height: 700}}
-          contentContainerStyle={{alignItems: 'center'}}>
-          <View style={{width: '100%', height: 450, alignItems: 'center'}}>
+          style={{ width: '100%', height: 700 }}
+          contentContainerStyle={{ alignItems: 'center' }}>
+          <View style={{ width: '100%', height: 450, alignItems: 'center' }}>
             <TextInput
               placeholder="Nama Karyawan"
               placeholderTextColor="#000"
@@ -100,12 +104,14 @@ const App = () => {
               placeholder="Password"
               style={styles.input}
               onChangeText={text => setPassword(text)}
+              secureTextEntry={!showPassword}
             />
             <TextInput
               placeholderTextColor="#000"
               placeholder="Konfirmasi Password"
               style={styles.input1}
               onChangeText={text => setConfirmPassword(text)}
+              secureTextEntry={!showPassword}
             />
             <TouchableOpacity onPress={handleSubmit} style={styles.btn}>
               <Text style={styles.btnTitle}>Daftar</Text>
@@ -113,7 +119,7 @@ const App = () => {
           </View>
         </ScrollView>
       </View>
-      <View style={{top: -90}}>
+      <View style={{ top: -90 }}>
         <Wave1 />
       </View>
       {isLoading && (

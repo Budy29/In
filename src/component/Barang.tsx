@@ -38,6 +38,7 @@ const App = () => {
       });
 
       setIsLoading(false);
+      console.log('ini data barang :', response.data.messages.data)
       setProducts(response.data.messages.data);
     } catch (error) {
       setIsLoading(false);
@@ -126,7 +127,7 @@ const App = () => {
           {products.map(item => (
             <View key={item.id} style={styles.contentProduk}>
               <View style={styles.Imageview}>
-                {/* <Image source={item.gambar} style={styles.Image} /> */}
+                <Image source={item.gambar} style={styles.Image} />
               </View>
               <View
                 style={{

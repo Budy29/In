@@ -68,7 +68,7 @@ const SecondRoute = () => {
         {products.map(item => (
           <View key={item.id} style={styles.item}>
             <View style={styles.Imageview}>
-              <Image source={{}} style={styles.Image} />
+              <Image source={item.gambar} style={styles.Image} />
             </View>
             <View style={{ marginLeft: '5%' }}>
               <Text style={styles.titleProduk}>{item.nama_barang}</Text>
@@ -149,6 +149,7 @@ const FirstRoute = () => {
       });
 
       setIsLoading(false);
+      console.log('ini data prduct ya', response)
       setProducts(response.data.messages.data);
     } catch (error) {
       setIsLoading(false);
@@ -166,7 +167,7 @@ const FirstRoute = () => {
         {products.map(item => (
           <View key={item.id} style={styles.item}>
             <View style={styles.Imageview}>
-              <Image source={{}} style={styles.Image} />
+              <Image source={item.gambar} style={styles.Image} />
             </View>
             <View style={{ marginLeft: '5%' }}>
               <Text style={styles.titleProduk}>{item.nama_barang}</Text>
@@ -206,7 +207,7 @@ const ThridRoute = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log('halo ini adalah consol')
+      console.log('ini merupakan data transaksi ya', response.data.messages.data)
       setTransaksi(response.data.messages.data)
       setIsLoading(false);
     } catch (error) {
@@ -223,13 +224,14 @@ const ThridRoute = () => {
     setOpenModal(false);
   };
 
+  // console.log('ini transaksi saya:', transaksi)
   return (
     <View style={{ flex: 1, backgroundColor: '#FFF' }}>
       <ScrollView style={{ width: '100%', height: '100%', paddingTop: 20 }}>
         {transaksi.map(item => (
           <View key={item.id} style={styles.item}>
             <View style={styles.Imageview}>
-              <Image source={{}} style={styles.Image} />
+              { }
             </View>
             <View style={{ marginLeft: '5%' }}>
               <Text style={styles.titleProduk}>{item.nama_barang}</Text>
@@ -328,7 +330,7 @@ export default function TabDocument() {
           onIndexChange={setIndex}
           initialLayout={{ width: layout.width }}
           renderTabBar={props => (
-            <TabBar {...props} style={{ backgroundColor: '#44E7AC', }} />
+            <TabBar {...props} style={{ backgroundColor: '#44E7AC', }} tabStyle={{}} />
           )}
         />
       </View>

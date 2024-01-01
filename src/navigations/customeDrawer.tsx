@@ -13,6 +13,11 @@ import { DrawerActions, useNavigation } from '@react-navigation/native';
 const CustomDrawer = () => {
   const navigation = useNavigation();
   const [userData, setUserData] = useState('');
+  // const accessToken = useAuthStore(state => state.accessToken)
+  // const Logout = () => {
+  //   accessToken("");
+  //   navigation.navigate('Login')
+  // };
 
   return (
     <View style={{ flex: 1, paddingTop: 0, paddingHorizontal: 0 }}>
@@ -26,7 +31,7 @@ const CustomDrawer = () => {
           paddingBottom: '5%',
           alignItems: 'center',
         }}>
-        <Text
+        {/* <Text
           style={{
             color: '#000000',
             fontSize: 32,
@@ -34,7 +39,7 @@ const CustomDrawer = () => {
             fontFamily: 'Fredoka-Bold',
           }}>
           userprofile.name
-        </Text>
+        </Text> */}
       </View>
       <View style={styles.container}>
         <TouchableOpacity
@@ -67,7 +72,7 @@ const CustomDrawer = () => {
           <DrawerLaporan />
           <Text style={styles.btn_title}>Laporan</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Login')}>
           <DrawerLogout />
           <Text style={styles.btn_title}>Logout</Text>
         </TouchableOpacity>
