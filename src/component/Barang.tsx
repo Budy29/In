@@ -127,7 +127,7 @@ const App = () => {
           {products.map(item => (
             <View key={item.id} style={styles.contentProduk}>
               <View style={styles.Imageview}>
-                <Image source={item.gambar} style={styles.Image} />
+                <Image source={{ uri: item.gambar }} style={styles.Image} />
               </View>
               <View
                 style={{
@@ -207,6 +207,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
+    backgroundColor: '#FFF'
   },
   container_header: {
     backgroundColor: '#44E7AC',

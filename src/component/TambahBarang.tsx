@@ -118,7 +118,7 @@ const App: React.FC<AppProps> = () => {
 
   useEffect(() => {
     console.log("uploaded image", uploadedImage)
-    if (uploadedImage) {
+    if (uploadedImage && uploadedImage.path) {
       formData.append('gambar', {
         uri: uploadedImage.path,
         type: 'image/jpeg',
@@ -280,8 +280,8 @@ const App: React.FC<AppProps> = () => {
               <Image
                 source={{ uri: uploadedImage.path }}
                 style={{
-                  width: 100,
-                  height: 100,
+                  width: 45,
+                  height: 45,
                   marginTop: '5%',
                   borderRadius: 10,
                 }}

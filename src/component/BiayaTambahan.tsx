@@ -38,7 +38,7 @@ const App = () => {
       });
 
       setIsLoading(false);
-      // console.log(response);
+      console.log(response);
       setBiayaTambahan(response.data.messages.data)
     } catch (error) {
       setIsLoading(false);
@@ -90,8 +90,6 @@ const App = () => {
               </View>
             </View>
           ))}
-
-
         </ScrollView>
         <TouchableOpacity
           onPress={() => navigation.navigate('BiayaTambahan' as never)}
@@ -122,6 +120,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
+    backgroundColor: '#FFFF'
   },
   container_header: {
     backgroundColor: '#B9E1D3',

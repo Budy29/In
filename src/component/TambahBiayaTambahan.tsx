@@ -89,6 +89,7 @@ const App = () => {
           placeholder="Harga"
           placeholderTextColor="#000000"
           style={styles.input}
+          keyboardType="numeric"
           onChangeText={text => setPrice(text)}
         />
         <TextInput

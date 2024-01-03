@@ -16,11 +16,17 @@ import axios from 'axios';
 import { BASE_API_URL } from '@env';
 import { useAuthStore } from '../stores/useAuthStore';
 import { Report } from '../constants/Model';
+import { useBiayaTambahan, useProducts } from '../stores/useInventoryStore';
 
 const App = () => {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const accessToken = useAuthStore(state => state.accessToken);
+  const { biayaTambahan, setBiayaTambahan } = useBiayaTambahan();
+  const { products, setProducts } = useProducts();
+  const [totalHarga, setTotalHarga] = useState();
+  const [totalBarang, setTotalBarang] = useState();
+
 
   const [laporan, setLaporan] = useState<Report>({
     total_laba: '',
@@ -39,7 +45,7 @@ const App = () => {
         },
       });
       setIsLoading(false);
-      // console.log(response);
+      console.log('ini merupakan laporan', response);
       setLaporan(response.data.messages);
     } catch (error) {
       setIsLoading(false);
@@ -47,9 +53,77 @@ const App = () => {
     }
   };
 
+  const getBiayaTambahan = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${BASE_API_URL}/biayatambahan`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      setIsLoading(false);
+      console.log(response);
+      const biayaTambahanData = response.data.messages.data;
+
+      // Menghitung total harga dari seluruh item dalam array 'biayaTambahanData'
+      const totalHarga = biayaTambahanData.reduce(
+        (accumulator: number, currentItem: { harga: string; }) => accumulator + parseFloat(currentItem.harga),
+        0
+      );
+
+      console.log('Total harga:', totalHarga);
+
+      setBiayaTambahan(biayaTambahanData);
+      setTotalHarga(totalHarga);
+
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
+  };
+
+
+  const getDataProducts = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${BASE_API_URL}/barang`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      setIsLoading(false);
+      // console.log('ini data barang :', response.data.messages.data)
+      const Barang = response.data.messages.data;
+
+      const totalBarang = Barang.reduce(
+        (accumulator: number, currentItem: { stok: string }) => accumulator + parseFloat(currentItem.stok),
+        0
+      );
+      console.log('total Stock :', totalBarang);
+      setProducts(response.data.messages.data);
+      setTotalBarang(totalBarang)
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
+  };
+
+
   useEffect(() => {
     getLaporan();
+    getBiayaTambahan();
+    getDataProducts();
   }, []);
+
+  // const totalHarga = setBiayaTambahan.reduce((total: any, item: { harga: any; }) => total + item.harga, 0);
+  // console.log(totalHarga);
+  // const totalHarga : number = setBiayaTambahan.reduce((total, item) => total + item.harga, 0);
+  // console.log(totalHarga);
+
+  // const totalStock = setProducts.reduce((total: any, item: { stock: any; }) => total + item.stock, 0);
+  // console.log(totalStock);
 
   return (
     <View style={styles.container}>
@@ -127,7 +201,7 @@ const App = () => {
           <View
             style={{ marginLeft: '8%', width: '60%', justifyContent: 'center' }}>
             <Text style={styles.titleProduk}>
-              {parseInt(laporan.stok_sebelumnya) + laporan.stok_sekarang}
+              {totalBarang}
             </Text>
             <Text style={styles.titleProduk}>Stock Seluruh Barang</Text>
           </View>
@@ -148,7 +222,7 @@ const App = () => {
           </View>
           <View
             style={{ marginLeft: '8%', width: '60%', justifyContent: 'center' }}>
-            <Text style={styles.titleProduk}>Rp{laporan.biaya_tambahan}</Text>
+            <Text style={styles.titleProduk}>Rp. {totalHarga}</Text>
             <Text style={styles.titleProduk}>Biaya Tambahan</Text>
           </View>
         </View>
