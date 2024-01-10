@@ -36,7 +36,8 @@ export interface Transactions {
     nama_barang: string,
     id: string,
     created_at: string,
-    nama_kategori: string
+    nama_kategori: string,
+    gambar: string,
 }
 
 export interface AdditionalPrice {

@@ -57,11 +57,15 @@ const DocumenTransaksi: React.FC<Props> = ({
 
   const [barang, setBarang] = useState<Product[]>([]);
   const [harga, setHarga] = useState<number>(0);
-  const [biayaTambahan, setBiayaTambahan] = useState<number>(0);
+  const [biayaTambahan, setBiayaTambahan] = useState<AdditionalPrice[]>([]);
+
   const [catatan, setCatatan] = useState<string>('');
   const [jumlah, setJumlah] = useState<number>(0);
   const [totalBiaya, setTotalBiaya] = useState<string>('');
   const [idBarang, setIdBarang] = useState(0)
+  const [biaya, setBiaya] = useState<number>(0);
+  const [idKategori, setIdKategori] = useState(0)
+  const [Gambar, setGambar] = useState('');
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const accessToken = useAuthStore(state => state.accessToken);
@@ -94,8 +98,8 @@ const DocumenTransaksi: React.FC<Props> = ({
       });
 
       setIsLoading(false);
-      console.log(response);
-      // setBiayaTambahan(response.data.messages)
+      console.log(response.data.messages.data);
+      setBiayaTambahan(response.data.messages.data)
     } catch (error) {
       setIsLoading(false);
       console.log(error);
@@ -123,7 +127,7 @@ const DocumenTransaksi: React.FC<Props> = ({
     // total_biaya: harga * jumlah + biayaTambahan,
     try {
       const response = await axios.get(
-        `${BASE_API_URL}/transaksip?id_barang=${idBarang}&biaya_tambahan=${biayaTambahan}&catatan=${catatan}&jumlah=${jumlah}&total_biaya=${harga * jumlah + biayaTambahan}`,
+        `${BASE_API_URL}/transaksip?id_barang=${idBarang}&biaya_tambahan=${biaya}&catatan=${catatan}&jumlah=${jumlah}&total_biaya=${harga * jumlah + biaya}&gambar=${Gambar}`,
         // {
         //   id_barang: 1,
         //   biaya_tambahan: biayaTambahan,
@@ -152,7 +156,7 @@ const DocumenTransaksi: React.FC<Props> = ({
 
   useEffect(() => {
     getDataProducts();
-    // getBiayaTambahan();
+    getBiayaTambahan();
   }, []);
 
   return (
@@ -176,6 +180,7 @@ const DocumenTransaksi: React.FC<Props> = ({
                 onSelect={(selectedItem, index) => {
                   setIdBarang(selectedItem.id);
                   setHarga(selectedItem.harga_barang);
+                  setGambar(selectedItem.gambar)
 
                 }}
                 defaultButtonText="Pilih Barang"
@@ -233,12 +238,45 @@ const DocumenTransaksi: React.FC<Props> = ({
                 onChangeText={text => setCatatan(text)}
               />
               {/* dropdown */}
-              <TextInput
+              <SelectDropdown
+                data={biayaTambahan}
+                onSelect={(selected, index) => {
+                  setIdKategori(selected.id);
+                  const parsedBiaya = parseFloat(selected.harga);
+                  setBiaya(parsedBiaya);
+                }}
+                defaultButtonText="Biaya Tambahan"
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem.harga;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item.nama;
+                }}
+                dropdownIconPosition={'left'}
+                buttonStyle={{
+                  width: '85%',
+                  borderBottomWidth: 2,
+                  paddingTop: '1%',
+                  marginTop: '5%',
+                  backgroundColor: '#E6E6E6',
+                  borderRadius: 5,
+                  height: 54,
+                  paddingLeft: 15,
+                }}
+                buttonTextStyle={{
+                  fontFamily: 'Fredoka-Bold',
+                  color: '#000',
+                  textAlign: 'left',
+                  fontWeight: 'bold',
+                  fontSize: 16,
+                }}
+              />
+              {/* <TextInput
                 placeholder="Biaya Tambahan"
                 placeholderTextColor="#000000"
                 style={styles.input}
                 onChangeText={text => setBiayaTambahan(parseInt(text))}
-              />
+              /> */}
               {/* <View style={styles.input}>
                 {!uploadedImage ? (
                   <Text

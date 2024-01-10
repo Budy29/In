@@ -68,7 +68,7 @@ const SecondRoute = () => {
         {products.map(item => (
           <View key={item.id} style={styles.item}>
             <View style={styles.Imageview}>
-              <Image source={item.gambar} style={styles.Image} />
+              <Image source={{ uri: item.gambar }} style={styles.Image} />
             </View>
             <View style={{ marginLeft: '5%' }}>
               <Text style={styles.titleProduk}>{item.nama_barang}</Text>
@@ -167,7 +167,7 @@ const FirstRoute = () => {
         {products.map(item => (
           <View key={item.id} style={styles.item}>
             <View style={styles.Imageview}>
-              <Image source={item.gambar} style={styles.Image} />
+              <Image source={{ uri: item.gambar }} style={styles.Image} />
             </View>
             <View style={{ marginLeft: '5%' }}>
               <Text style={styles.titleProduk}>{item.nama_barang}</Text>
@@ -231,7 +231,7 @@ const ThridRoute = () => {
         {transaksi.map(item => (
           <View key={item.id} style={styles.item}>
             <View style={styles.Imageview}>
-              { }
+              <Image source={{ uri: item.gambar }} style={styles.Image} />
             </View>
             <View style={{ marginLeft: '5%' }}>
               <Text style={styles.titleProduk}>{item.nama_barang}</Text>
@@ -330,7 +330,7 @@ export default function TabDocument() {
           onIndexChange={setIndex}
           initialLayout={{ width: layout.width }}
           renderTabBar={props => (
-            <TabBar {...props} style={{ backgroundColor: '#44E7AC', }} tabStyle={{}} />
+            <TabBar {...props} style={{ backgroundColor: '#44E7AC', }} />
           )}
         />
       </View>
@@ -411,3 +411,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+

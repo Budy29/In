@@ -280,8 +280,8 @@ const App: React.FC<AppProps> = () => {
               <Image
                 source={{ uri: uploadedImage.path }}
                 style={{
-                  width: 45,
-                  height: 45,
+                  width: 100,
+                  height: 100,
                   marginTop: '5%',
                   borderRadius: 10,
                 }}
